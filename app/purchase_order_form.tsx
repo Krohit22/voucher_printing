@@ -18,10 +18,11 @@ import { Calendar } from "react-native-calendars";
 import { Link } from "expo-router";
 
 export default function purchase_order_form() {
-  const [IsOrderMadal, SetOrderNoModal] = useState(false);
-  const [IsDateMadal, SetDateModal] = useState(false);
+  const [IsOrderModal, SetOrderNoModal] = useState(false);
+  const [IsDateModal, SetDateModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState(" ");
   const [isClicked, SetisClicked] = useState(false);
+  const [isDeliveryDateModal, SetDeliveryDateModal] = useState(false);
 
   const [loaded] = useFonts({
     Poppins: require("../assets/fonts/Poppins-Medium.ttf"),
@@ -44,8 +45,10 @@ export default function purchase_order_form() {
     date < 10 ? `0${date}` : date
   }`;
 
-  const handleDayPress = (day: { dateString: React.SetStateAction<string>; }) => {
-    setSelectedDate(day.dateString); 
+  const handleDayPress = (day: {
+    dateString: React.SetStateAction<string>;
+  }) => {
+    setSelectedDate(day.dateString);
   };
 
   return (
@@ -129,7 +132,7 @@ export default function purchase_order_form() {
       <Divider width={5} color="black" />
       <Modal
         transparent={true}
-        visible={IsOrderMadal}
+        visible={IsOrderModal}
         animationType="slide"
         onRequestClose={() => SetOrderNoModal(false)}
       >
@@ -164,7 +167,7 @@ export default function purchase_order_form() {
           </View>
         </View>
       </Modal>
-      <Modal visible={IsDateMadal}>
+      <Modal visible={IsDateModal}>
         <View style={{ backgroundColor: "#000000aa", flex: 1 }}>
           <View
             style={{
@@ -177,13 +180,15 @@ export default function purchase_order_form() {
             }}
           >
             <Calendar
-                onDayPress={handleDayPress}
+              onDayPress={handleDayPress}
               style={{ width: "100%", borderRadius: 10, height: 500 }}
-        
-                markedDates={{
-                    [selectedDate]: { selected: true, selectedColor: "#800020",selectedTextColor: "#ffff" }, // Mark the selected date
-                  }}
-              
+              markedDates={{
+                [selectedDate]: {
+                  selected: true,
+                  selectedColor: "#800020",
+                  selectedTextColor: "#ffff",
+                }, // Mark the selected date
+              }}
             />
 
             <View
@@ -194,7 +199,6 @@ export default function purchase_order_form() {
                 marginBottom: 20,
               }}
             >
-        
               <TouchableOpacity
                 onPress={() => {
                   SetDateModal(false);
@@ -230,8 +234,6 @@ export default function purchase_order_form() {
           </View>
         </View>
       </Modal>
-
-
 
       <View style={{ flexDirection: "column", width: "100%" }}>
         <Text

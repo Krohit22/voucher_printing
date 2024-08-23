@@ -14,8 +14,9 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import * as SplashScreen from "expo-splash-screen";
 import { Divider } from "@rneui/themed";
 import { Calendar } from "react-native-calendars";
-
+import Entypo from '@expo/vector-icons/Entypo';
 import { Link } from "expo-router";
+import { useNavigation } from '@react-navigation/native';
 
 export default function purchase_order_form() {
   const [IsOrderModal, SetOrderNoModal] = useState(false);
@@ -23,6 +24,7 @@ export default function purchase_order_form() {
   const [selectedDate, setSelectedDate] = useState(" ");
   const [isClicked, SetisClicked] = useState(false);
   const [isDeliveryDateModal, SetDeliveryDateModal] = useState(false);
+  const [selectedDeliveryDate, setSelectedDeliveryDate] = useState(" ");
 
   const [loaded] = useFonts({
     Poppins: require("../assets/fonts/Poppins-Medium.ttf"),
@@ -40,15 +42,22 @@ export default function purchase_order_form() {
   let date = new Date().getDate();
   let month = new Date().getMonth() + 1;
   let year = new Date().getFullYear();
+  let route = useNavigation();
 
   let currentdate = `${year}-${month < 10 ? `0${month}` : month}-${
     date < 10 ? `0${date}` : date
   }`;
 
-  const handleDayPress = (day: {
+  const handleCurrentDayPress = (day: {
     dateString: React.SetStateAction<string>;
   }) => {
     setSelectedDate(day.dateString);
+  };
+
+  const handleDeliveryDayPress = (day: {
+    dateString: React.SetStateAction<string>;
+  }) => {
+    setSelectedDeliveryDate(day.dateString);
   };
 
   return (
@@ -180,7 +189,7 @@ export default function purchase_order_form() {
             }}
           >
             <Calendar
-              onDayPress={handleDayPress}
+              onDayPress={handleCurrentDayPress}
               style={{ width: "100%", borderRadius: 10, height: 500 }}
               markedDates={{
                 [selectedDate]: {
@@ -285,12 +294,91 @@ export default function purchase_order_form() {
             borderBottomWidth: 1,
             borderBottomColor: "#646161",
             width: 100,
-          }}
-        >
+          }} onPress={()=>SetDeliveryDateModal(true)} >
           <Text style={{ fontSize: 14, fontFamily: "inter", color: "#646161" }}>
             DD/MM/YYYY
           </Text>
         </TouchableOpacity>
+      </View>
+      <Modal visible={isDeliveryDateModal}>
+        <View style={{ backgroundColor: "#000000aa", flex: 1 }}>
+          <View
+            style={{
+              backgroundColor: "white",
+              width: "80%",
+              position: "relative",
+              top: 200,
+              left: 40,
+              borderRadius: 20,
+            }}
+          >
+            <Calendar
+              onDayPress={handleDeliveryDayPress}
+              style={{ width: "100%", borderRadius: 10, height: 500 }}
+              markedDates={{
+                [selectedDeliveryDate]: {
+                  selected: true,
+                  selectedColor: "#800020",
+                  selectedTextColor: "#ffff",
+                }, // Mark the selected date
+              }}
+            />
+
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                padding: 10,
+                marginBottom: 20,
+              }}
+            >
+              <TouchableOpacity
+                onPress={() => {
+                  SetDeliveryDateModal(false);
+                }}
+              >
+                <Text
+                  style={{
+                    color: "#323CF9",
+                    fontSize: 16,
+                    fontFamily: "Poppins",
+                  }}
+                >
+                  CANCEL
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  SetDeliveryDateModal(false);
+                }}
+              >
+                <Text
+                  style={{
+                    color: "#323CF9",
+                    fontSize: 16,
+                    fontFamily: "Poppins",
+                    marginRight: 5,
+                  }}
+                >
+                  OK
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+      <View style={styles.addItemButtonContainer}>
+        <Link href="/" asChild>
+          <TouchableOpacity style={styles.addItemButton}>
+            <View style={styles.addItemButtonIcon}>
+              <Entypo name="circle-with-plus" size={25} color="#800020" />
+            </View>
+            <Text style={styles.addItemText}>Add Item</Text>
+          </TouchableOpacity>
+        </Link>
+      </View>
+      <View style={styles.noteContainer}>
+                  
       </View>
     </View>
   );
@@ -311,4 +399,41 @@ const styles = StyleSheet.create({
     elevation: 5,
     alignSelf: "center",
   },
+  addItemButtonContainer:{
+    width:'100%',
+    marginTop:10
+  },
+  addItemButton:{
+    height:55,
+    width:'100%',
+    elevation:4,
+    backgroundColor:'#FFF0F4',
+  
+
+    
+  },
+  addItemText:{
+    width:'100%',
+    height:'100%',
+    color:'#800020',
+    fontSize:16,
+    fontFamily:'Poppins',
+    position:'absolute',
+    left:'43%',
+    top:15
+
+    
+
+
+  },
+  addItemButtonIcon:{
+    position:'absolute',
+    left:'36%',
+    top:15
+  },
+  noteContainer:{
+    width:'100%',
+    flexDirection:'column'
+
+  }
 });

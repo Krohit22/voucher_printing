@@ -1,14 +1,22 @@
 import React, { useEffect, useState } from "react";
-import {View,Text,StyleSheet,TextInput,Modal,TouchableOpacity,} from "react-native";
-import TopHeader from "../components/TopHearder";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  Modal,
+  TouchableOpacity,
+} from "react-native";
+import TopHeader from "../components/PurchaseOrderTopHearder";
 import { useFonts } from "expo-font";
 import Constant from "expo-constants";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import * as SplashScreen from "expo-splash-screen";
 import { Divider } from "@rneui/themed";
 import { Calendar } from "react-native-calendars";
-import Entypo from '@expo/vector-icons/Entypo';
+import Entypo from "@expo/vector-icons/Entypo";
 import { Link } from "expo-router";
+import SaveButton from "../components/saveButtton";
 
 export default function PurchaseOrderForm() {
   // State Hooks
@@ -18,13 +26,13 @@ export default function PurchaseOrderForm() {
   const [isClicked, SetisClicked] = useState(false);
   const [isDeliveryDateModal, SetDeliveryDateModal] = useState(false);
   const [selectedDeliveryDate, setSelectedDeliveryDate] = useState(" ");
-  
+
   // Font Hook
   const [loaded] = useFonts({
     Poppins: require("../assets/fonts/Poppins-Medium.ttf"),
     josefinSans: require("../assets/fonts/JosefinSans-Bold.ttf"),
     inter: require("../assets/fonts/Inter_18pt-Medium.ttf"),
-    opensens: require("../assets/fonts/JosefinSans-Bold.ttf")
+    opensens: require("../assets/fonts/JosefinSans-Bold.ttf"),
   });
 
   // Effect Hook
@@ -39,11 +47,15 @@ export default function PurchaseOrderForm() {
   }
 
   // Handler Functions
-  const handleCurrentDayPress = (day: { dateString: React.SetStateAction<string>; }) => {
+  const handleCurrentDayPress = (day: {
+    dateString: React.SetStateAction<string>;
+  }) => {
     setSelectedDate(day.dateString);
   };
 
-  const handleDeliveryDayPress = (day: { dateString: React.SetStateAction<string>; }) => {
+  const handleDeliveryDayPress = (day: {
+    dateString: React.SetStateAction<string>;
+  }) => {
     setSelectedDeliveryDate(day.dateString);
   };
 
@@ -51,7 +63,7 @@ export default function PurchaseOrderForm() {
   let date = new Date().getDate();
   let month = new Date().getMonth() + 1;
   let year = new Date().getFullYear();
-  
+
   let currentdate = `${year}-${month < 10 ? `0${month}` : month}-${
     date < 10 ? `0${date}` : date
   }`;
@@ -108,18 +120,14 @@ export default function PurchaseOrderForm() {
       >
         <View style={styles.modalBackground}>
           <View style={styles.modalContainer}>
-            <Text style={styles.modalTitle}>
-              Order No
-            </Text>
-            <TextInput
-              style={styles.modalInput}
-            />
+            <Text style={styles.modalTitle}>Order No</Text>
+            <TextInput style={styles.modalInput} />
           </View>
         </View>
       </Modal>
 
       {/* Date Modal */}
-      <Modal visible={IsDateModal}>
+      <Modal visible={IsDateModal} transparent={true}>
         <View style={styles.modalBackground}>
           <View style={styles.dateModalContainer}>
             <Calendar
@@ -135,14 +143,10 @@ export default function PurchaseOrderForm() {
             />
 
             <View style={styles.modalFooter}>
-              <TouchableOpacity
-                onPress={() => SetDateModal(false)}
-              >
+              <TouchableOpacity onPress={() => SetDateModal(false)}>
                 <Text style={styles.modalFooterText}>CANCEL</Text>
               </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => SetDateModal(false)}
-              >
+              <TouchableOpacity onPress={() => SetDateModal(false)}>
                 <Text style={styles.modalFooterText}>OK</Text>
               </TouchableOpacity>
             </View>
@@ -167,7 +171,7 @@ export default function PurchaseOrderForm() {
           <View style={styles.dropDownArea}>
             <View style={{ width: "100%" }}>
               <TouchableOpacity>
-                <Link href={"/"} style={styles.addNewPartyLink}>
+                <Link href={"./Suppliers_details"} style={styles.addNewPartyLink}>
                   <Text style={styles.addNewPartyText}>Add New Party</Text>
                 </Link>
               </TouchableOpacity>
@@ -183,14 +187,12 @@ export default function PurchaseOrderForm() {
           style={styles.deliveryDateInput}
           onPress={() => SetDeliveryDateModal(true)}
         >
-          <Text style={styles.deliveryDateText}>
-            DD/MM/YYYY
-          </Text>
+          <Text style={styles.deliveryDateText}>DD/MM/YYYY</Text>
         </TouchableOpacity>
       </View>
 
       {/* Delivery Date Modal */}
-      <Modal visible={isDeliveryDateModal}>
+      <Modal visible={isDeliveryDateModal} transparent={true}>
         <View style={styles.modalBackground}>
           <View style={styles.dateModalContainer}>
             <Calendar
@@ -206,14 +208,10 @@ export default function PurchaseOrderForm() {
             />
 
             <View style={styles.modalFooter}>
-              <TouchableOpacity
-                onPress={() => SetDeliveryDateModal(false)}
-              >
+              <TouchableOpacity onPress={() => SetDeliveryDateModal(false)}>
                 <Text style={styles.modalFooterText}>CANCEL</Text>
               </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => SetDeliveryDateModal(false)}
-              >
+              <TouchableOpacity onPress={() => SetDeliveryDateModal(false)}>
                 <Text style={styles.modalFooterText}>OK</Text>
               </TouchableOpacity>
             </View>
@@ -235,8 +233,11 @@ export default function PurchaseOrderForm() {
 
       {/* Note Section */}
       <View style={styles.noteContainer}>
-        <Text style={styles.noteText}>Note</Text> 
-        <TextInput style={styles.notesInput} placeholder="Enter"></TextInput>  
+        <Text style={styles.noteText}>Note</Text>
+        <TextInput style={styles.notesInput} placeholder="Enter"></TextInput>
+      </View>
+      <View style={styles.SaveButtonContainer}>
+        <SaveButton/>
       </View>
     </View>
   );
@@ -277,8 +278,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#909090",
   },
   modalBackground: {
-    backgroundColor: "#000000aa",
-    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.08)',
+    flex:1
   },
   modalContainer: {
     backgroundColor: "white",
@@ -303,7 +304,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     width: "80%",
     position: "relative",
-    top: 200,
+    top: 100,
     left: 40,
     borderRadius: 20,
   },
@@ -362,13 +363,13 @@ const styles = StyleSheet.create({
   deliveryDateLabel: {
     fontFamily: "Poppins",
     fontSize: 16,
-    marginLeft:10,
+    marginLeft: 10,
   },
   deliveryDateInput: {
     borderBottomWidth: 1,
     borderBottomColor: "#646161",
     width: 100,
-    marginLeft:10,
+    marginLeft: 10,
   },
   deliveryDateText: {
     fontSize: 14,
@@ -376,48 +377,51 @@ const styles = StyleSheet.create({
     color: "#646161",
   },
   addItemButtonContainer: {
-    width: '100%',
+    width: "100%",
     marginTop: 10,
   },
   addItemButton: {
     height: 55,
-    width: '100%',
+    width: "100%",
     elevation: 4,
-    backgroundColor: '#FFF0F4',
+    backgroundColor: "#FFF0F4",
   },
   addItemText: {
-    width: '100%',
-    height: '100%',
-    color: '#800020',
+    width: "100%",
+    height: "100%",
+    color: "#800020",
     fontSize: 16,
-    fontFamily: 'Poppins',
-    position: 'absolute',
-    left: '43%',
+    fontFamily: "Poppins",
+    position: "absolute",
+    left: "43%",
     top: 15,
   },
   addItemButtonIcon: {
-    position: 'absolute',
-    left: '36%',
+    position: "absolute",
+    left: "36%",
     top: 15,
   },
   noteContainer: {
-    width: '100%',
-    flexDirection: 'column',
-    position:'relative',
-    bottom:-350
+    width: "100%",
+    flexDirection: "column",
+    position: "relative",
+    bottom: -410,
   },
   noteText: {
     fontFamily: "opensens",
     fontSize: 16,
-    marginLeft:14,
+    marginLeft: 8,
   },
-  notesInput:{
-    width:'94%',
-    height:45,
-    borderColor:'black',
-    borderWidth:1,
-    marginLeft:14,
-    padding:5
-  }
-
+  notesInput: {
+    width: "96%",
+    height: 45,
+    borderColor: "black",
+    borderWidth: 1,
+    marginLeft: 8,
+    padding: 5,
+  },
+  SaveButtonContainer:{
+    position:'relative',
+    bottom:-420
+  },
 });

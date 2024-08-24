@@ -16,11 +16,11 @@ export default function saveButton(){
         return null;
     }
     return(
-        <View>
-            <TouchableOpacity style={{width:359,height:39.6,backgroundColor:'#800020',borderRadius:5,justifyContent:'center',alignContent:'center'}}>
+        
+            <TouchableOpacity style={{width:'96%',height:39.6,backgroundColor:'#800020',borderRadius:5,justifyContent:'center',alignContent:'center',marginLeft:8}}>
                 <Text style={{fontFamily:'poppins',color:'white',fontWeight:500,fontSize:16,textAlign:'center'}}>Save</Text>
             </TouchableOpacity>
             
-        </View>
+        
     );
 }

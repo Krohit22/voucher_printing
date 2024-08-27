@@ -1,12 +1,13 @@
 import { Text, View, TouchableOpacity, Animated } from "react-native";
 import TopHeader from "../components/PurchaseOrderTopHearder";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
-import { ExpoRouter, Link } from "expo-router";
+import { Link, router, useNavigation } from "expo-router";
 
 export default function Index() {
+  const navigation = useNavigation();
   return (
     <View style={{ height: "100%", backgroundColor: "white" }}>
-      <TopHeader />
+      
       <TouchableOpacity
         style={{
           width: 50,
@@ -20,11 +21,11 @@ export default function Index() {
           backgroundColor: "#800020",
           alignItems: "center",
           justifyContent: "center",
-        }}
+        }} onPress={()=>router.push("/purchase_order_form")}
       >
-        <Link href={"/purchase_order_form"}>
+       
           <FontAwesome6 name="plus" size={24} color="white" />
-        </Link>
+        
       </TouchableOpacity>
     </View>
   );

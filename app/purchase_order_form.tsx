@@ -15,7 +15,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { Divider } from "@rneui/themed";
 import { Calendar } from "react-native-calendars";
 import Entypo from "@expo/vector-icons/Entypo";
-import { Link } from "expo-router";
+import { Link,useRouter } from "expo-router";
 import SaveButton from "../components/saveButtton";
 
 export default function PurchaseOrderForm() {
@@ -70,7 +70,7 @@ export default function PurchaseOrderForm() {
 
   return (
     <View>
-      <TopHeader />
+      
 
       {/* Order Number and Date Input */}
       <View style={styles.headerContainer}>
@@ -221,7 +221,7 @@ export default function PurchaseOrderForm() {
 
       {/* Add Item Button */}
       <View style={styles.addItemButtonContainer}>
-        <Link href="/" asChild>
+        <Link href="/AddItem" asChild>
           <TouchableOpacity style={styles.addItemButton}>
             <View style={styles.addItemButtonIcon}>
               <Entypo name="circle-with-plus" size={25} color="#800020" />

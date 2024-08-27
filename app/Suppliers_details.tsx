@@ -5,7 +5,7 @@ import SaveButton from "../components/saveButtton";
 export default function SuppliersDetails(){
     return(
         <View>
-            <SupplierHeader/>
+         
             <View style={styles.inputTextContainer}><TextInput style={styles.InputSupplierDetails}placeholder="Supplier name*"></TextInput></View>
             <View style={styles.inputTextContainer}><TextInput style={styles.InputSupplierDetails}placeholder="Alias*"></TextInput></View>
             <View style={styles.inputTextContainer}><TextInput style={styles.InputSupplierDetails}placeholder="Supplier Address*"></TextInput></View>

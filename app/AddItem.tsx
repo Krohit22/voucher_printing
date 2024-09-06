@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { View,StyleSheet,Text,TextInput, TouchableOpacity, Modal, FlatList} from "react-native";
+import { View,StyleSheet,Text,TextInput, TouchableOpacity, Modal, FlatList, Pressable} from "react-native";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import * as SplashScreen from "expo-splash-screen";
 import Feather from '@expo/vector-icons/Feather';
 import { useFonts } from "expo-font";
 import AntDesign from '@expo/vector-icons/AntDesign';
-import SaveButton from "../components/saveButtton";
+import SaveButton from "../components/saveButton";
 const data =[
     {Unit:"Kilogram",code:'23'},
     {Unit:"Gram",code:'344'},
@@ -21,10 +21,16 @@ const data =[
 ]
 export default function AddItem(){
     
-    const [IsUnitButton,SetUnitButton] = useState(false)
+    const [IsUnitButton,SetUnitButton] = useState(false);
     const [selectedUnit,SetSeletedUnit] = useState('');
-    const[IsAddNewItemBtn,SetAddNewItemBtn]= useState(false)
+    const[IsAddNewItemBtn,SetAddNewItemBtn]= useState(false);
+    const [newItem, setNewItem] = useState<string>('');
     const [isdata,setdata] = useState(data);
+    const [newItemData, setNewItemData] = useState<Array<{ id: string; name: string; unit: string; qty:string; amt:string }>>([]);
+    const [itemunit,setitemsunit] = useState('');
+    const [itemqty,setitemsqty] = useState('');
+    const [itemamount,setitemsamount] = useState('');
+
     const onsearch = (txt: any) => {
       let tempData = data.filter((item) => {
         return item.Unit.toLowerCase().indexOf(txt.toLowerCase()) > -1;
@@ -48,20 +54,34 @@ export default function AddItem(){
     if(!fontloaded){
         return null;
     }
+
+    const addNewitems=()=>{
+        if(newItem){
+            const newItemObject={
+                id : (newItemData.length+1).toString(),
+                name : newItem,
+                unit : itemunit,
+                qty : itemqty,
+                amt: itemamount
+            }
+            setNewItemData([...newItemData,newItemObject]);
+            setNewItem(' ');
+        }
+    }
     return(
         <View style={styles.AddItemsContainer}>
 
             {/* add item name */}
-            <View style={styles.itemsnameConatainer}><TextInput style={styles.itemsname} placeholder="Item Name*"></TextInput><TouchableOpacity style={styles.addNewItem} onPress={()=>SetAddNewItemBtn(true)}><AntDesign name="plus" size={24} color="black" /></TouchableOpacity></View>
+            <View style={styles.itemsnameConatainer}><TextInput style={styles.itemsname} placeholder="Item Name*"  onChangeText={(text) => setNewItem(text)}></TextInput><TouchableOpacity style={styles.addNewItem} onPress={()=>SetAddNewItemBtn(true)} ><AntDesign name="plus" size={24} color="black" /></TouchableOpacity></View>
 
             {/* add item qty and unit */}
-            <View style={styles.itemsQtyAndUnitContainer}><TextInput style={styles.QuentyInput} placeholder="Quantity*"></TextInput>
+            <View style={styles.itemsQtyAndUnitContainer}><TextInput style={styles.QuentyInput} placeholder="Quantity*" onChangeText={(text)=>setitemsqty(text)}></TextInput>
                 <TouchableOpacity style={styles.AddUnitButton} onPress={()=>SetUnitButton(true)}><Text style={styles.AddUnitButtonText}>Unit*</Text><View style={styles.AddUnitButtonIcon}><MaterialIcons name="keyboard-arrow-up" size={35} color="black" /></View></TouchableOpacity>
             </View>   
             
 
             {/* add item Rate */}
-            <View style={styles.RateInputConatainer}><TextInput style={styles.RateInput} placeholder="Rate*"></TextInput></View>
+            <View style={styles.RateInputConatainer}><TextInput style={styles.RateInput} placeholder="Rate*" onChangeText={(text)=>setitemsamount(text)}></TextInput></View>
 
             
 
@@ -79,6 +99,7 @@ export default function AddItem(){
                                             <TouchableOpacity style={styles.UnitList} onPress={()=>{
                                                 SetSeletedUnit(item.Unit)
                                                 SetUnitButton(false)
+                                                setitemsunit(item.Unit)
                                             }}>
                                                 <Text>{item.Unit}</Text>
                                             </TouchableOpacity>
@@ -100,10 +121,12 @@ export default function AddItem(){
                                 <View><TextInput style={styles.addNewItemInputs} placeholder="Item Name*"></TextInput></View>
                                 <View><TextInput style={styles.addNewItemInputs} placeholder="Item Category*"></TextInput></View>
                                 <View><TextInput style={styles.addNewItemInputs} placeholder="HSN Code*"></TextInput></View>
-                                <View style={styles.saveButton}><SaveButton/></View>
+                                <View style={styles.AddNewItemSaveButton}><SaveButton link={"/AddLineItem"} itemsData={[]}/></View>
                     </View>
                 </View>
-            </Modal>  
+            </Modal> 
+            <TouchableOpacity style={{width:'96%',height:39.6,backgroundColor:'#800020',borderRadius:5,justifyContent:'center',alignContent:'center',marginLeft:8,position:'relative',top:500}} onPress={addNewitems}><Text style={{fontFamily:'poppins',color:'white',fontWeight:500,fontSize:16,textAlign:'center'}}>add</Text></TouchableOpacity>
+            <View style={styles.saveButton}><SaveButton link="/AddLineItem" itemsData = {newItemData} /></View> 
         </View>
     );
 }
@@ -276,8 +299,12 @@ const styles = StyleSheet.create({
         marginTop:15,
         borderRadius:8
     },
-    saveButton:{
+    AddNewItemSaveButton:{
         marginTop:50
+    },
+    saveButton:{
+        position:'relative',
+        top:510
     }
 
 

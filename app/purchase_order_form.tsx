@@ -15,8 +15,8 @@ import * as SplashScreen from "expo-splash-screen";
 import { Divider } from "@rneui/themed";
 import { Calendar } from "react-native-calendars";
 import Entypo from "@expo/vector-icons/Entypo";
-import { Link,useRouter } from "expo-router";
-import SaveButton from "../components/saveButtton";
+import { Link, useRouter } from "expo-router";
+import SaveButton from "../components/saveButton";
 
 export default function PurchaseOrderForm() {
   // State Hooks
@@ -70,8 +70,6 @@ export default function PurchaseOrderForm() {
 
   return (
     <View>
-      
-
       {/* Order Number and Date Input */}
       <View style={styles.headerContainer}>
         <View style={styles.inputContainer}>
@@ -171,7 +169,10 @@ export default function PurchaseOrderForm() {
           <View style={styles.dropDownArea}>
             <View style={{ width: "100%" }}>
               <TouchableOpacity>
-                <Link href={"./Suppliers_details"} style={styles.addNewPartyLink}>
+                <Link
+                  href={"./Suppliers_details"}
+                  style={styles.addNewPartyLink}
+                >
                   <Text style={styles.addNewPartyText}>Add New Party</Text>
                 </Link>
               </TouchableOpacity>
@@ -237,7 +238,7 @@ export default function PurchaseOrderForm() {
         <TextInput style={styles.notesInput} placeholder="Enter"></TextInput>
       </View>
       <View style={styles.SaveButtonContainer}>
-        <SaveButton/>
+        <SaveButton link={""} itemsData={[]} />
       </View>
     </View>
   );
@@ -278,8 +279,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#909090",
   },
   modalBackground: {
-    backgroundColor: 'rgba(0, 0, 0, 0.08)',
-    flex:1
+    backgroundColor: "rgba(0, 0, 0, 0.08)",
+    flex: 1,
   },
   modalContainer: {
     backgroundColor: "white",
@@ -420,8 +421,8 @@ const styles = StyleSheet.create({
     marginLeft: 8,
     padding: 5,
   },
-  SaveButtonContainer:{
-    position:'relative',
-    bottom:-420
+  SaveButtonContainer: {
+    position: "relative",
+    bottom: -420,
   },
 });

@@ -238,7 +238,7 @@ export default function PurchaseOrderForm() {
         <TextInput style={styles.notesInput} placeholder="Enter"></TextInput>
       </View>
       <View style={styles.SaveButtonContainer}>
-        <SaveButton link={""} itemsData={[]} />
+        <SaveButton link={"./PurchaseOrderResult"} itemsData={[]} />
       </View>
     </View>
   );

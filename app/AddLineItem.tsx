@@ -19,8 +19,7 @@ export default function AddLineItem() {
     const parsedItems: Item[] = itemsData
         ? Array.isArray(itemsData)
             ? itemsData
-            : JSON.parse(itemsData)
-        : [];
+            : JSON.parse(itemsData) : [];
 
     return (
         <View style={styles.ListOfItemContainer}>

@@ -18,7 +18,7 @@ export default function SaveButton({ link, itemsData }: SaveButtonProps){
     //     // Append queryParams to the link
     //     router.push(`${link}?${queryParams}`);
     //     };
-        const [loaded] = useFonts({
+    const [loaded] = useFonts({
         "poppins":require("../assets/fonts/Poppins-Medium.ttf")
     });
     useEffect(()=>{

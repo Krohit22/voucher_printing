@@ -43,7 +43,7 @@ export default function AddItem(){
     });
     
     useEffect(() => {
-        const prepare= async() =>{
+        const prepare = async() =>{
             if (fontloaded) {
                 await SplashScreen.hideAsync();
             }
@@ -65,7 +65,10 @@ export default function AddItem(){
                 amt: itemamount
             }
             setNewItemData([...newItemData,newItemObject]);
-            setNewItem(' ');
+            setNewItem('');
+            setitemsamount('')
+            setitemsqty('')
+            setitemsunit('')
         }
     }
     return(

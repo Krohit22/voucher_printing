@@ -124,12 +124,12 @@ export default function AddItem(){
                                 <View><TextInput style={styles.addNewItemInputs} placeholder="Item Name*"></TextInput></View>
                                 <View><TextInput style={styles.addNewItemInputs} placeholder="Item Category*"></TextInput></View>
                                 <View><TextInput style={styles.addNewItemInputs} placeholder="HSN Code*"></TextInput></View>
-                                <View style={styles.AddNewItemSaveButton}><SaveButton link={"/AddLineItem"} itemsData={[]}/></View>
+                                <View style={styles.AddNewItemSaveButton}><SaveButton link={"/AddLineItem"} DataList={[]} onButtonPress={undefined}/></View>
                     </View>
                 </View>
             </Modal> 
             <TouchableOpacity style={{width:'96%',height:39.6,backgroundColor:'#800020',borderRadius:5,justifyContent:'center',alignContent:'center',marginLeft:8,position:'relative',top:500}} onPress={addNewitems}><Text style={{fontFamily:'poppins',color:'white',fontWeight:500,fontSize:16,textAlign:'center'}}>add</Text></TouchableOpacity>
-            <View style={styles.saveButton}><SaveButton link="/AddLineItem" itemsData = {newItemData} /></View> 
+            <View style={styles.saveButton}><SaveButton link="/AddLineItem" DataList={newItemData} onButtonPress={undefined} /></View> 
         </View>
     );
 }
@@ -309,8 +309,4 @@ const styles = StyleSheet.create({
         position:'relative',
         top:510
     }
-
-
-
-
 })

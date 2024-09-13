@@ -13,13 +13,13 @@ interface Item {
 
 export default function AddLineItem() {
     // Fetch the parameters from the router
-    const { itemsData } = useLocalSearchParams<{ itemsData: string }>();
+    const { DataList } = useLocalSearchParams<{ DataList: string }>();
     
-    // Parse itemsData if it's a string, otherwise use it directly if it's already an array
-    const parsedItems: Item[] = itemsData
-        ? Array.isArray(itemsData)
-            ? itemsData
-            : JSON.parse(itemsData) : [];
+    // Parse DataList if it's a string, otherwise use it directly if it's already an array
+    const parsedItems: Item[] = DataList
+        ? Array.isArray(DataList)
+            ? DataList
+            : JSON.parse(DataList) : [];
 
     return (
         <View style={styles.ListOfItemContainer}>

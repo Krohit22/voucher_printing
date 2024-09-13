@@ -6,6 +6,7 @@ import { useFonts } from "expo-font";
 import { SplashScreen } from "expo-router";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import SaveButton from "../components/saveButton";
 export default function PurchaseOrderResult(){
     const [loaded] = useFonts({
         Poppins: require("../assets/fonts/Poppins-Medium.ttf"),
@@ -54,6 +55,22 @@ export default function PurchaseOrderResult(){
             </View>
 
             <View><TouchableOpacity style={styles.AddedItems}><MaterialCommunityIcons name="cart" size={28} color="#800020" /><Text style={styles.AddedItemsText}>Added Items</Text></TouchableOpacity></View>
+            <View style={styles.SubTotalContainer}>
+                <Text style={styles.SubTotalTitle}>Sub Total</Text><Text style={styles.STamt}></Text>
+            </View>
+            <View style={styles.DiscountContainer}>
+                <Text style={styles.DiscountTitle}>Discount</Text><Text style={styles.DiscountAmt}></Text>
+            </View>
+            <View style={styles.TotalContainer}>
+                <Text style={styles.TotalTitle}>Total</Text><Text style={styles.Tamt}></Text>
+            </View>
+            <View style={styles.noteContainer}>
+                <Text style={styles.noteText}>Note</Text>
+                <TextInput style={styles.notesInput} placeholder="Enter"></TextInput>
+            </View>
+            <View style={styles.SaveButtonContainer}>
+                <SaveButton link={""} itemsData={[]} />
+            </View>
         </View>
     )
 }
@@ -63,7 +80,7 @@ const styles = StyleSheet.create({
         width:'100%',
         flexDirection: "row",
         justifyContent: "space-between",
-        
+
         marginRight: 10,
         marginTop: 10,
         marginBottom:10,
@@ -158,7 +175,96 @@ const styles = StyleSheet.create({
         fontSize:18,
         fontWeight:"500",
         marginLeft:7
-    }
+    },
+    SubTotalContainer:{
+        position:'absolute',
+        top:450,
+        left:20,
+        flexDirection:'row'
+        
+    },
+    SubTotalTitle:{
+        fontFamily:'Poppins',
+        fontSize:21,
+        width:140,
+        marginRight:42
+    },
+    STamt:{
+        borderBottomColor:"black",
+        borderBottomWidth:1,
+        width:190,
+        position:'relative',
+        bottom:5
+        
+    },
+    DiscountContainer:{
+        position:'absolute',
+        top:500,
+        left:20,
+        flexDirection:'row'
+        
+    },
+    DiscountTitle:{
+        fontFamily:'Poppins',
+        fontSize:21,
+        width:140,
+        marginRight:42
+    },
+    DiscountAmt:{
+        borderBottomColor:"black",
+        borderBottomWidth:1,
+        width:190,
+        position:'relative',
+        bottom:5
+        
+    },
+    TotalContainer:{
+        position:'absolute',
+        top:550,
+        left:20,
+        flexDirection:'row'
+        
+    },
+    TotalTitle:{
+        fontFamily:'Poppins',
+        fontSize:21,
+        width:140,
+        marginRight:42
+    },
+    Tamt:{
+        borderBottomColor:"black",
+        borderBottomWidth:1,
+        width:190,
+        position:'relative',
+        bottom:5
+        
+    },
+    noteContainer: {
+        width: "100%",
+        flexDirection: "column",
+        position: "relative",
+        bottom: -320,
+      },
+      noteText: {
+        fontFamily: "opensens",
+        fontSize: 17,
+        marginLeft: 8,
+      },
+      notesInput: {
+        width: "96%",
+        height: 45,
+        borderColor: "black",
+        borderWidth: 1,
+        marginLeft: 8,
+        padding: 5,
+        marginTop:5
+      },
+      SaveButtonContainer: {
+        position: "relative",
+        bottom: -340,
+      },
+
+
 }
 
 )

@@ -28,6 +28,9 @@ interface supplierdetail {
   OutstandingAmt: string;
 }
 
+interface itemDetail{
+  Total:string
+}
 export default function PurchaseOrderForm() {
   // State Hooks
 
@@ -43,14 +46,16 @@ export default function PurchaseOrderForm() {
     useState("");
   const [isShowselectedCurrentDate, setShowselectedCurrentDate] = useState("");
   const { DataList } = useLocalSearchParams<{ DataList: string }>();
-  const[supplierName,SetsupplierName] = useState("");
- 
-  
+  const [supplierName,SetsupplierName] = useState("");
+  const [PODataList, SetPODataList] = useState<Array<{OrderNo:string,CurrentDate:string,SupplierName:string,DeliveryDate:string,Total:string}>>([]);
+  const {Total} = useLocalSearchParams<{Total:string}>()
+  console.log(Total)
   let parsedItems: supplierdetail[] = DataList
     ? Array.isArray(DataList)
       ? DataList
       : JSON.parse(DataList)
     : [];
+
     const[supplierNameList,SetsupplierNameList] = useState(parsedItems);
 
   // Font Hook
@@ -70,6 +75,21 @@ export default function PurchaseOrderForm() {
 
   if (!loaded) {
     return null;
+  }
+
+
+  //function to store information of purchaser in list
+  const AddPOList = () => {
+    if(isOrderNo){
+      const newPODataListObject={
+        OrderNo:isOrderNo,
+        CurrentDate:selectedDate,
+        SupplierName:supplierName,
+        DeliveryDate:selectedDeliveryDate,
+        Total:Total     
+      }
+      PODataList.push(newPODataListObject);
+    }
   }
 
   //function to search supplier name
@@ -301,8 +321,8 @@ export default function PurchaseOrderForm() {
       <View style={styles.SaveButtonContainer}>
         <SaveButton
           link={"./PurchaseOrderResult"}
-          DataList={[]}
-          onButtonPress={undefined}
+          DataList={PODataList}
+          onButtonPress={AddPOList}
         />
       </View>
     </View>

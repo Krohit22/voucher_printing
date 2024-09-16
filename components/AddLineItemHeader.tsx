@@ -6,8 +6,11 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from "react";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { TouchableOpacity } from "react-native";
-
-export default function SupplierHeader(){
+import { router } from "expo-router";
+interface LineItem{
+  Total:any;
+}
+export default function SupplierHeader({Total}:LineItem){
     const [fontsLoaded] = useFonts({
         'Poppins': require('../assets/fonts/Poppins-Medium.ttf'), // Adjust the path to your font file
         'love': require('../assets/fonts/PlaywriteSK-ExtraLight.ttf')
@@ -25,9 +28,10 @@ export default function SupplierHeader(){
     
 
     return(
-<View style={{backgroundColor:'#ffff',width:'100%',height:45,borderBottomWidth:0.8,borderBottomColor:'#D9D9D9',flexDirection:'row'}}>
-        <View style={{width:100,marginTop:7,marginLeft:10,}}><AntDesign name="arrowleft" size={30} color="#800020"/></View>
-    <Text style={{color:'#800020',fontSize:24,textAlign:"center",fontFamily:'Poppins',fontWeight:600,width:200}}>Add Items</Text>
+<View style={{backgroundColor:'#ffff',width:'100%',height:90,borderBottomWidth:0.8,borderBottomColor:'#D9D9D9',flexDirection:'row'}}>
+        <TouchableOpacity style={{width:100,marginTop:50,marginLeft:10,}} onPress={()=>router.push({pathname:"/purchase_order_form",params:{Total}})}><AntDesign name="arrowleft" size={30} color="#800020"/></TouchableOpacity>
+    <Text style={{color:'#800020',fontSize:24,textAlign:"center",fontFamily:'Poppins',fontWeight:600,width:200, marginTop:50
+    }}>Add Line Items</Text>
 </View>
     );
 }

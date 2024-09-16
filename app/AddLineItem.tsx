@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
 import { useLocalSearchParams } from "expo-router";
+import LineItemHeader from "../components/AddLineItemHeader"
 
 // Define the type for the items data
 interface Item {
@@ -14,15 +15,23 @@ interface Item {
 export default function AddLineItem() {
     // Fetch the parameters from the router
     const { DataList } = useLocalSearchParams<{ DataList: string }>();
+    let Total = 0
     
     // Parse DataList if it's a string, otherwise use it directly if it's already an array
     const parsedItems: Item[] = DataList
         ? Array.isArray(DataList)
             ? DataList
             : JSON.parse(DataList) : [];
-
+    for (let index = 0; index < parsedItems.length; index++) {
+        const element = parsedItems[index];  
+        Total += parseInt(element.amt)   
+    }
+    console.log(Total)
     return (
-        <View style={styles.ListOfItemContainer}>
+        <View>
+            <LineItemHeader Total={Total.toString()} />
+            <View style={styles.ListOfItemContainer}>
+            
             <View style={styles.ListOfItemContainerHeader}>
                 <Text style={styles.ItemTxt}>Items</Text>
                 <Text style={styles.AmtTxt}>Amount</Text>
@@ -41,6 +50,7 @@ export default function AddLineItem() {
                 )}
                 style={styles.ListOfItem}
             />
+            </View>
         </View>
     );
 }

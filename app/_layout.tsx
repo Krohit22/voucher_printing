@@ -105,24 +105,11 @@ export default function RootLayout() {
                                     )
                                 })}/>
             <Stack.Screen name="AddLineItem"                 
-                                options={({ navigation }) => ({
-                                    headerTitle: "Add Line Items",
-                                    headerTitleAlign: 'center',
-                                    headerTintColor: "#800020",
-                                    headerStyle: {
-                                        backgroundColor: '#ffff'
-                                    },
-                                    headerTitleStyle: {
-                                        fontWeight: '600',
-                                        fontFamily: 'Poppins',
-                                        fontSize: 24 
-                                    },
-                                    headerLeft: () => (
-                                        <TouchableOpacity onPress={() => navigation.goBack()}>
-                                            <AntDesign name="arrowleft" size={30} color="#800020" />
-                                        </TouchableOpacity>
-                                    )
-                                })}/>
+                                options={
+                                    {
+                                        headerShown:false
+                                    }
+                                }/>
                         <Stack.Screen name="PurchaseOrderResult"                 
                                 options={({ navigation }) => ({
                                     headerTitle: "Purchase Order Result",

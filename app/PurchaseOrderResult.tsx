@@ -1,13 +1,26 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { View,Text,TextInput, TouchableOpacity,StyleSheet } from "react-native";
-import PurchaseOrderTopHeader from '../components/PurchaseOrderTopHearder';
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useFonts } from "expo-font";
-import { SplashScreen } from "expo-router";
+import { router, SplashScreen, useLocalSearchParams } from "expo-router";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import SaveButton from "../components/saveButton";
+import { Route } from "expo-router/build/Route";
+
+interface PurchaseOrder{
+    OrderNo:string,
+    CurrentDate:string,
+    SupplierName:string,
+    DeliveryDate:string,
+    Total:string
+}
 export default function PurchaseOrderResult(){
+    const [orderNO,setOrderNo] = useState("");
+    const [CurrentDate,SetCurrentDate] = useState("");
+    const [SupplierName,SetSupplierName] = useState("");
+    const [DeliveryDate,SetDeliveryDate] = useState("");
+    const [SubTotal,SetSubTotal] = useState("");
+    const { DataList } = useLocalSearchParams<{ DataList: string }>();
     const [loaded] = useFonts({
         Poppins: require("../assets/fonts/Poppins-Medium.ttf"),
         josefinSans: require("../assets/fonts/JosefinSans-Bold.ttf"),
@@ -25,38 +38,60 @@ export default function PurchaseOrderResult(){
       if (!loaded) {
         return null;
       }
+
+      let parsedItems:  PurchaseOrder[] = DataList
+      ? Array.isArray(DataList) ?DataList : JSON.parse(DataList) : [];
+      console.log(parsedItems)
+      console.log(DataList)
+      useEffect(() => {
+        // Parse the DataList and set the state based on the first item (assuming you're showing the first order).
+        if (DataList) {
+          // Set state for the first item if available
+          if (parsedItems.length > 0) {
+            const firstOrder = parsedItems[0];
+            setOrderNo(firstOrder.OrderNo);
+            SetCurrentDate(firstOrder.CurrentDate);
+            SetSupplierName(firstOrder.SupplierName);
+            SetDeliveryDate(firstOrder.DeliveryDate);
+            SetSubTotal(firstOrder.Total);
+
+          }
+        }
+      }, [DataList]);
+
     return(
         <View style={{backgroundColor:"white",height:"100%"}}>
             {/* header content */}
             <View style={styles.headerContent}>
                 <View style={styles.orderNumContent}>
                     <Text style={styles.HeaderTitle}>Order no.</Text>
-                    <Text style={styles.orderNum}>1</Text>
+                    <Text style={styles.orderNum}>{orderNO}</Text>
                 </View> 
                 <View style={styles.verticalLine}></View>
                 <View style={styles.DateContent}>
                     <Text style={styles.HeaderTitle}>Date</Text>
-                    <Text style={styles.Date}>12/08/2024</Text>
+                    <Text style={styles.Date}>{CurrentDate}</Text>
                 </View> 
 
             </View>
-
+            
             {/* supplier name */}
             <View style={styles.supplierNameConatainer}>
-                <Text style={styles.supplierItemName}>Supplier name*</Text>
-            </View>
-            {/* supplier name */}
-            <View style={styles.DeliveryDateConatainer}>
-                <View style={styles.DDT_AndIcon}>
-                    <Text style={styles.DeliveryDateText}>Delivery date*</Text>
-                    <FontAwesome name="calendar-minus-o" size={24} color="black" />
-                </View>
-                <Text style={styles.DeliveryDate}>12/08/2024</Text>
+                <Text style={styles.supplierItemName}>{SupplierName}</Text>
             </View>
 
-            <View><TouchableOpacity style={styles.AddedItems}><MaterialCommunityIcons name="cart" size={28} color="#800020" /><Text style={styles.AddedItemsText}>Added Items</Text></TouchableOpacity></View>
+            {/* delivery date name */}
+            <View style={styles.DeliveryDateConatainer}>
+                <View style={styles.DDT_AndIcon}>
+                    <Text style={styles.DeliveryDateText}>DeliveryDate*</Text>
+                    <FontAwesome name="calendar-minus-o" size={24} color="black" />
+                </View>
+                <Text style={styles.DeliveryDate}>{DeliveryDate}</Text>
+            </View>
+
+            <View><TouchableOpacity style={styles.AddedItems} onPress={()=>router.push("/AddLineItem")}><MaterialCommunityIcons name="cart" size={28} color="#800020" /><Text style={styles.AddedItemsText}>Added Items</Text></TouchableOpacity></View>
             <View style={styles.SubTotalContainer}>
-                <Text style={styles.SubTotalTitle}>Sub Total</Text><Text style={styles.STamt}></Text>
+                <Text style={styles.SubTotalTitle}>Sub Total</Text><Text style={styles.STamt}>{SubTotal}</Text>
             </View>
             <View style={styles.DiscountContainer}>
                 <Text style={styles.DiscountTitle}>Discount</Text><Text style={styles.DiscountAmt}></Text>
@@ -69,7 +104,7 @@ export default function PurchaseOrderResult(){
                 <TextInput style={styles.notesInput} placeholder="Enter"></TextInput>
             </View>
             <View style={styles.SaveButtonContainer}>
-                <SaveButton link={""} itemsData={[]} />
+                <SaveButton link={""} DataList={[]} onButtonPress={undefined}/>
             </View>
         </View>
     )
@@ -108,7 +143,7 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         marginTop: 10,
         position:'relative',
-        right:120
+        right:110
     },
 
     Date:{

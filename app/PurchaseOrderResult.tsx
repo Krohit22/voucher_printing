@@ -89,7 +89,7 @@ export default function PurchaseOrderResult(){
                 <Text style={styles.DeliveryDate}>{DeliveryDate}</Text>
             </View>
 
-            <View><TouchableOpacity style={styles.AddedItems} onPress={()=>router.push("/AddLineItem")}><MaterialCommunityIcons name="cart" size={28} color="#800020" /><Text style={styles.AddedItemsText}>Added Items</Text></TouchableOpacity></View>
+            <View><TouchableOpacity style={styles.AddedItems} onPress={()=>router.push("/AddItem")}><MaterialCommunityIcons name="cart" size={28} color="#800020" /><Text style={styles.AddedItemsText}>Added Items</Text></TouchableOpacity></View>
             <View style={styles.SubTotalContainer}>
                 <Text style={styles.SubTotalTitle}>Sub Total</Text><Text style={styles.STamt}>{SubTotal}</Text>
             </View>

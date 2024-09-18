@@ -6,6 +6,7 @@ import Feather from '@expo/vector-icons/Feather';
 import { useFonts } from "expo-font";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import SaveButton from "../components/saveButton";
+import { router } from "expo-router";
 const data =[
     {Unit:"Kilogram",code:'23'},
     {Unit:"Gram",code:'344'},
@@ -23,7 +24,7 @@ export default function AddItem(){
     
     const [IsUnitButton,SetUnitButton] = useState(false);
     const [selectedUnit,SetSeletedUnit] = useState('');
-    const[IsAddNewItemBtn,SetAddNewItemBtn]= useState(false);
+
     const [newItem, setNewItem] = useState<string>('');
     const [isdata,setdata] = useState(data);
     const [newItemData, setNewItemData] = useState<Array<{ id: string; name: string; unit: string; qty:string; amt:string }>>([]);
@@ -75,7 +76,7 @@ export default function AddItem(){
         <View style={styles.AddItemsContainer}>
 
             {/* add item name */}
-            <View style={styles.itemsnameConatainer}><TextInput style={styles.itemsname} placeholder="Item Name*"  onChangeText={(text) => setNewItem(text)}></TextInput><TouchableOpacity style={styles.addNewItem} onPress={()=>SetAddNewItemBtn(true)} ><AntDesign name="plus" size={24} color="black" /></TouchableOpacity></View>
+            <View style={styles.itemsnameConatainer}><TextInput style={styles.itemsname} placeholder="Item Name*"  onChangeText={(text) => setNewItem(text)}></TextInput><TouchableOpacity style={styles.addNewItem} onPress={()=>router.push("/CreateNewItems")}><AntDesign name="plus" size={24} color="black" /></TouchableOpacity></View>
 
             {/* add item qty and unit */}
             <View style={styles.itemsQtyAndUnitContainer}><TextInput style={styles.QuentyInput} placeholder="Quantity*" onChangeText={(text)=>setitemsqty(text)}></TextInput>
@@ -86,6 +87,25 @@ export default function AddItem(){
             {/* add item Rate */}
             <View style={styles.RateInputConatainer}><TextInput style={styles.RateInput} placeholder="Rate*" onChangeText={(text)=>setitemsamount(text)}></TextInput></View>
 
+
+            {/*view item list*/}
+            <View style={styles.ViewItemLIstContainer}>
+                <View style={styles.ListOfItemContainerHeader}>
+                    <Text style={styles.ItemTxt}>Items</Text>
+                    <Text style={styles.AmtTxt}>Amount</Text>
+                </View>
+                <FlatList data={newItemData} keyExtractor={(newItemData)=>newItemData.id} renderItem={({item})=>{
+                    return(
+                        <View style={styles.itemRow}>
+                            <Text style={styles.itemNameText}>{item.id}  {item.name}</Text>
+                            <Text style={styles.itemqty}>{item.qty}</Text>
+                            <Text style={styles.itemunit}>{item.unit}</Text>
+                            <Text style={styles.itemamt}>{item.amt}</Text>
+                        
+                        </View>
+                    )
+                }}></FlatList>
+            </View>
             
 
             {/* Add unit modal */}
@@ -116,20 +136,9 @@ export default function AddItem(){
                 </View>
             </Modal>
 
-            {/* add new item model */}
-            <Modal visible={IsAddNewItemBtn} transparent={true}>
-                <View style={styles.AddNewItemConatainer}>
-                    <View style={styles.AddItemsContainerBackground}>
-                                <View style={styles.AddNewItemheader}><Text style={styles.AddNewItemheaderText}>Craete a Items</Text><TouchableOpacity style={styles.closebtnAddItems} onPress={()=>SetAddNewItemBtn(false)}><Feather name="x" size={28} color="#800020" /></TouchableOpacity></View>
-                                <View><TextInput style={styles.addNewItemInputs} placeholder="Item Name*"></TextInput></View>
-                                <View><TextInput style={styles.addNewItemInputs} placeholder="Item Category*"></TextInput></View>
-                                <View><TextInput style={styles.addNewItemInputs} placeholder="HSN Code*"></TextInput></View>
-                                <View style={styles.AddNewItemSaveButton}><SaveButton link={"/AddLineItem"} DataList={[]} onButtonPress={undefined}/></View>
-                    </View>
-                </View>
-            </Modal> 
-            <TouchableOpacity style={{width:'96%',height:39.6,backgroundColor:'#800020',borderRadius:5,justifyContent:'center',alignContent:'center',marginLeft:8,position:'relative',top:500}} onPress={addNewitems}><Text style={{fontFamily:'poppins',color:'white',fontWeight:500,fontSize:16,textAlign:'center'}}>add</Text></TouchableOpacity>
-            <View style={styles.saveButton}><SaveButton link="/AddLineItem" DataList={newItemData} onButtonPress={undefined} /></View> 
+
+            <TouchableOpacity style={{width:'96%',height:39.6,backgroundColor:'#800020',borderRadius:5,justifyContent:'center',alignContent:'center',marginLeft:8,position:'relative',top:40}} onPress={addNewitems}><Text style={{fontFamily:'poppins',color:'white',fontWeight:500,fontSize:16,textAlign:'center'}}>add</Text></TouchableOpacity>
+            <View style={styles.saveButton}><SaveButton link="/purchase_order_form" DataList={undefined} onButtonPress={undefined} /></View> 
         </View>
     );
 }
@@ -263,50 +272,74 @@ const styles = StyleSheet.create({
         right:15,
         top:30
     },
-    AddNewItemConatainer:{
-        backgroundColor: 'rgba(0, 0, 0, 0.08)',
-        flex:1
-    },
-    AddItemsContainerBackground:{
-        backgroundColor:'white',
-        margin:5,
-        height:400,
-        marginTop:455,
-        borderRadius:20,
-        padding:20
-    },
-    closebtnAddItems:{
-        position:'absolute',
-        right:5,
-        top:6
-    },
-    AddNewItemheader:{
-        flexDirection:'row',
-        justifyContent:'center',
-        
-    },
-    AddNewItemheaderText:{
-        color:'#800020',
-        fontFamily:'Poppins',
-        fontSize:24,
-        marginBottom:10,
-
-        
-    },
-    addNewItemInputs:{
-        width:'95%',
-        borderColor:'black',
-        borderWidth:1,
-        padding:10,
-        marginLeft:10,
-        marginTop:15,
-        borderRadius:8
-    },
-    AddNewItemSaveButton:{
-        marginTop:50
-    },
     saveButton:{
         position:'relative',
-        top:510
+        top:50
+    },
+    ViewItemLIstContainer:{
+        width: 357,
+        height: 420,
+        backgroundColor: 'white',
+        marginLeft: 30,
+        marginTop: 20,
+        borderRadius: 10,
+        overflow: 'hidden',
+        
+    },
+    ListOfItemContainerHeader: {
+        width: '100%',
+        height: 45,
+        borderBottomWidth: 0.5,
+        borderColor: '#A49A9A',
+        padding: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor:"white"
+    },
+    ListOfItem: {
+        flexGrow: 1,
+    },
+    AmtTxt: {
+        textAlign: 'right',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    ItemTxt: {
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    itemRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingVertical: 10,
+        borderBottomWidth: 0.5,
+        borderBottomColor: '#A49A9A',
+        height:80,
+    },
+    itemNameText: {
+        fontSize: 14,
+        width:'100%',
+        position:'absolute',
+        top:20,
+        left:10
+
+    },
+    itemamt: {
+        position:'absolute',
+        top:20,
+        right:10
+    },
+    itemqty:{
+        position:'absolute',
+        top:40,
+        left:23,
+        color:'#646161'
+    },
+    itemunit:{
+        position:'absolute',
+        top:40,
+        left:45,
+        color:'#646161'
     }
 })
